@@ -1,0 +1,219 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+    background-color: #f0f0f0;
+}
+
+.login-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    max-width: 1200px;
+    height: 70vh;
+    text-align: center;
+}
+
+.image-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+}
+
+.icon {
+    height: 400px;
+    width: auto;
+}
+
+.divider {
+    width: 1px;
+    background-color: #000;
+    /* Línea negra */
+    height: 100%;
+}
+
+.form-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+}
+
+.restaurant-name {
+    font-size: 2.5rem;
+    color: #d4a373;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.login-title {
+    font-size: 1.5rem;
+    color: #4a403a;
+    margin-bottom: 1.5rem;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+}
+
+.login-form label {
+    font-weight: bold;
+    color: #4a403a;
+    text-align: left;
+}
+
+.login-form input {
+    padding: 0.75rem;
+    font-size: 1rem;
+    border: 1px solid #d4a373;
+    border-radius: 10px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    width: 500px;
+}
+
+.login-form input:focus {
+    outline: none;
+    border-color: #4a403a;
+    box-shadow: 0 0 10px rgba(212, 163, 115, 0.7);
+}
+
+.login-button {
+    background-color: #d4a373;
+    color: #fff;
+    padding: 0.75rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    margin-bottom: 0;
+}
+
+.login-button:hover {
+    background-color: #a36f53;
+    transform: translateY(-2px);
+}
+
+.login-button:active {
+    transform: translateY(0);
+}
+
+.login-form input::placeholder {
+    color: #aaa;
+    font-style: italic;
+}
+
+.error-message {
+    color: red;
+}
+
+.error-border {
+    border: 2px solid red !important;
+}
+
+
+/* Media Queries para hacer el diseño responsivo */
+
+@media (max-width: 500px) {
+    /* Para pantallas pequeñas de hasta 500px */
+    body {
+        font-size: 24px;
+    }
+    .login-container {
+        flex-direction: column;
+        padding: 1rem;
+        height: auto;
+    }
+    .image-container {
+        text-align: center;
+    }
+    .icon {
+        height: 300px;
+        /* Reducimos el tamaño del logo */
+        width: auto;
+    }
+    .divider {
+        display: none;
+        /* Ocultamos la línea vertical entre el logo y el formulario en pantallas pequeñas */
+    }
+    .form-container {
+        width: 100%;
+        padding: 1rem;
+    }
+    .restaurant-name {
+        font-size: 1.2rem;
+        /* Reducimos el tamaño del texto para el nombre del restaurante */
+        margin-bottom: 1rem;
+    }
+    .login-title {
+        font-size: 1.1rem;
+        /* Reducimos el tamaño del título */
+    }
+    .login-form {
+        display: flex;
+        flex-direction: column;
+        gap: 0.8rem;
+        width: 100%;
+    }
+    .login-form label {
+        font-weight: bold;
+        color: #4a403a;
+        text-align: left;
+    }
+    .login-form input {
+        padding: 0.75rem;
+        font-size: 1rem;
+        border: 1px solid #d4a373;
+        border-radius: 10px;
+        width: 100%;
+        /* Hacemos que los campos de entrada ocupen el 100% del ancho disponible */
+    }
+    .login-button {
+        background-color: #d4a373;
+        color: #fff;
+        padding: 0.75rem;
+        font-size: 1rem;
+        /* Reducimos el tamaño del botón */
+        font-weight: bold;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        margin-top: 1rem;
+    }
+    .login-button:hover {
+        background-color: #a36f53;
+        transform: translateY(-2px);
+    }
+    .login-button:active {
+        transform: translateY(0);
+    }
+    .login-form input::placeholder {
+        color: #aaa;
+        font-style: italic;
+    }
+    .error-message {
+        color: red;
+    }
+    .error-border {
+        border: 2px solid red !important;
+    }
+}
