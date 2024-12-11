@@ -2,16 +2,21 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: "Quicksand", serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
 }
 
 body {
-    font-family: 'Arial', sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
     overflow: hidden;
     background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
 }
 
 .login-container {
@@ -23,6 +28,8 @@ body {
     max-width: 1200px;
     height: 70vh;
     text-align: center;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .image-container {
@@ -34,14 +41,13 @@ body {
 }
 
 .icon {
-    height: 400px;
+    height: 350px;
     width: auto;
 }
 
 .divider {
     width: 1px;
     background-color: #000;
-    /* Línea negra */
     height: 100%;
 }
 
@@ -130,49 +136,44 @@ body {
     border: 2px solid red !important;
 }
 
-
-/* Media Queries para hacer el diseño responsivo */
-
 @media (max-width: 500px) {
-    /* Para pantallas pequeñas de hasta 500px */
     body {
-        font-size: 24px;
+        font-size: 14px;
+        align-items: normal;
+        margin: 0;
+        padding: 0;
     }
     .login-container {
+        margin-top: 40px;
         flex-direction: column;
-        padding: 1rem;
-        height: auto;
+        padding: 0;
+        width: 100%;
+        box-sizing: border-box;
     }
     .image-container {
         text-align: center;
     }
     .icon {
-        height: 300px;
-        /* Reducimos el tamaño del logo */
-        width: auto;
+        height: 130px;
+        margin-bottom: 20px;
     }
     .divider {
         display: none;
-        /* Ocultamos la línea vertical entre el logo y el formulario en pantallas pequeñas */
     }
     .form-container {
-        width: 100%;
-        padding: 1rem;
+        padding: 0;
     }
     .restaurant-name {
         font-size: 1.2rem;
-        /* Reducimos el tamaño del texto para el nombre del restaurante */
-        margin-bottom: 1rem;
+        margin-bottom: 0rem;
     }
     .login-title {
         font-size: 1.1rem;
-        /* Reducimos el tamaño del título */
     }
     .login-form {
         display: flex;
         flex-direction: column;
         gap: 0.8rem;
-        width: 100%;
     }
     .login-form label {
         font-weight: bold;
@@ -184,15 +185,13 @@ body {
         font-size: 1rem;
         border: 1px solid #d4a373;
         border-radius: 10px;
-        width: 100%;
-        /* Hacemos que los campos de entrada ocupen el 100% del ancho disponible */
+        width: 300px;
     }
     .login-button {
         background-color: #d4a373;
         color: #fff;
         padding: 0.75rem;
         font-size: 1rem;
-        /* Reducimos el tamaño del botón */
         font-weight: bold;
         border: none;
         border-radius: 10px;

@@ -15,13 +15,16 @@ if (isset($_SESSION['loggedin'])) {
     <title>Login</title>
     <link rel="stylesheet" href="./css/login.css">
     <link rel="shortcut icon" href="./img/icon.png" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="login-container">
         <div class="image-container">
             <img src="./img/icon.png" class="icon">
         </div>
-        <div class="divider"></div> <!-- Línea vertical entre el logo y el formulario -->
+        <div class="divider"></div> 
         <div class="form-container">
             <form class="login-form" action="./private/access.php" method="POST" id="loginForm">
                 <label for="email_usuario">Email</label>
