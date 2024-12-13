@@ -1,0 +1,220 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Quicksand", serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+}
+
+.navbar {
+    background-color: #a36f53;
+    color: #fff;
+    padding: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar .icon {
+    width: 100px;
+    height: auto;
+}
+
+.navbar .user-info {
+    flex: 1;
+    text-align: center;
+}
+
+.navbar .user-info span {
+    display: inline-block;
+    margin-right: 15px;
+}
+
+.navbar .user-info a {
+    color: #fff;
+    text-decoration: none;
+    margin: 0 10px;
+}
+
+.navbar .user-info .history-button {
+    margin-left: 15px;
+    padding: 5px 10px;
+    background-color: #d4a373;
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.navbar .user-info .history-button:hover {
+    background-color: #b97f52;
+}
+
+.logout {
+    text-decoration: none;
+    color: white;
+    margin-left: 10px;
+}
+
+.options {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px auto;
+    width: 80%;
+    height: 80%;
+}
+
+.option {
+    flex: 1;
+    margin: 0 10px;
+    padding: 20px;
+    text-align: center;
+    background-size: cover;
+    background-position: center;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+    border: none;
+    border-radius: 10px;
+    border: 1px solid #d4a373;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+}
+
+.option h2 {
+    margin: 0;
+    padding: 10px;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.button-container {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.option .select-button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #d4a373;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.3s;
+}
+
+.option .select-button:hover {
+    background-color: #b97f52;
+}
+
+.option .edit-button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.3s;
+}
+
+.option .edit-button:hover {
+    background-color: #45ca49;
+}
+
+.option:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.banner {
+    background-image: url('../img/añadir-sala.jpg');
+    background-size: cover;
+    background-position: center;
+    padding: 30px 10px;
+    border-radius: 15px;
+    color: white;
+    text-align: center;
+    margin-left: 47px;
+    margin-top: 20px;
+    width: 93%;
+    opacity: 0.9;
+}
+
+.banner h1 {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+    font-weight: 600;
+}
+
+.banner .add-button {
+    background-color: #4CAF50;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+    color: white;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    display: inline-block;
+}
+
+.banner .add-button:hover {
+    background-color: #3e8e41;
+}
+
+.delete-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #ff0000;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.delete-button:hover {
+    background-color: #cc0000;
+}
+
+@media (max-width: 768px) {
+    .options {
+        flex-direction: column;
+        align-items: center;
+        width: 90%;
+    }
+    .option {
+        width: 100%;
+        margin: 10px 0;
+    }
+    .option h2 {
+        font-size: 1.5em;
+    }
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .navbar .user-info {
+        margin-top: 10px;
+    }
+}

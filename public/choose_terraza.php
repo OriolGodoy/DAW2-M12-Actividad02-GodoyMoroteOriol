@@ -6,7 +6,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     exit();
 }
 
-require_once "../db/conexion.php";
+require_once "../db/conexion.php"; 
 
 try {
     $query = "SELECT id_sala, nombre_sala FROM tbl_sala WHERE tipo_sala = 'terraza'";

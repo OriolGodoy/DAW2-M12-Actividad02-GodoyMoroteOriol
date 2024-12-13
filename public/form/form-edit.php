@@ -2,8 +2,22 @@
 session_start();
 
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-    header("Location: ../../index.php");
+    header("Location: ../index.php"); 
     exit();
+}
+
+if ($_SESSION['rol_usuario'] !== "Administrador") {
+    switch ($_SESSION['rol_usuario']) {
+        case 'Camarero':
+            header("Location: ../panelCamarero.php");
+            exit();
+        case 'Gerente':
+            header("Location: ../panelGerente.php");
+            exit();
+        default:
+            header("Location: ../dashboard.php");
+            exit();
+    }
 }
 
 require_once "../../db/conexion.php";

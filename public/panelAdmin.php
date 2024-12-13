@@ -2,8 +2,22 @@
 session_start();
 
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-    header("Location: ../index.php");
+    header("Location: ../index.php"); 
     exit();
+}
+
+if ($_SESSION['rol_usuario'] !== "Administrador") {
+    switch ($_SESSION['rol_usuario']) {
+        case 'Camarero':
+            header("Location: ./panelCamarero.php");
+           exit();
+        case 'Gerente':
+            header("Location: ./panelGerente.php");
+           exit();
+        default:
+            header("Location: ./dashboard.php");
+           exit();
+    }
 }
 
 require_once "../db/conexion.php";
@@ -11,17 +25,20 @@ require_once "../db/conexion.php";
 $query = "SELECT u.id_usuario, u.nombre_usuario, u.email_usuario, r.nombre_rol 
           FROM tbl_usuario u
           JOIN tbl_rol r ON u.id_rol = r.id_rol";
-$stmt = $conn->query($query);
+$stmt = $conn->prepare($query);
+$stmt->execute();  
 
 $rolesQuery = "SELECT * FROM tbl_rol";
-$rolesStmt = $conn->query($rolesQuery);
+$rolesStmt = $conn->prepare($rolesQuery);
+$rolesStmt->execute(); 
 
 if (isset($_GET['delete'])) {
     $id_usuario = $_GET['delete'];
 
-    $deleteQuery = "DELETE FROM tbl_usuario WHERE id_usuario=?";
-    $stmt = $conn->prepare($deleteQuery);
-    $stmt->execute([$id_usuario]);
+    $deleteQuery = "DELETE FROM tbl_usuario WHERE id_usuario = :id_usuario";
+    $deleteStmt = $conn->prepare($deleteQuery);
+    $deleteStmt->bindParam(':id_usuario', $id_usuario, PDO::PARAM_INT);
+    $deleteStmt->execute();
 
     header("Location: panelAdmin.php");
     exit();
