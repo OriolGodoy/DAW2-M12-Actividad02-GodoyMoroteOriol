@@ -68,8 +68,8 @@ try {
             <span><?php echo htmlspecialchars($_SESSION['nombre_usuario']); ?></span>
             <a href="./historial_ocupaciones.php" class="history-button">Ver Historial</a>
             <a href="./panelAdmin.php" class="logout">Gestionar Usuarios</a>
-            <a href="../private/logout.php" class="logout">Cerrar Sesión</a>
-        </div>
+            <a href="#" class="logout" onclick="cerrarSesion()">Cerrar Sesión</a>
+            </div>
     </div>
 
     <div class="banner">
@@ -84,8 +84,8 @@ try {
             <div class="option" style="background-image: url('<?php echo htmlspecialchars($sala['imagen_sala']); ?>');">
                 <h2><?php echo htmlspecialchars($sala['nombre_sala']); ?></h2>
                 <div class="button-container">
-                    <button type="submit" name="sala" value="<?php echo htmlspecialchars($sala['id_sala']); ?>" class="select-button">Seleccionar</button>
-                    <a href="./form/form-editar-sala.php?id=<?php echo htmlspecialchars($sala['id_sala']); ?>" class="edit-button">Editar</a>
+                <a href="gestion_mesas.php?id_sala=<?php echo htmlspecialchars($sala['id_sala']); ?>" class="select-button">Seleccionar</a>
+                <a href="./form/form-editar-sala.php?id=<?php echo htmlspecialchars($sala['id_sala']); ?>" class="edit-button">Editar</a>
                     <a href="#" class="delete-button" onclick="confirmarEliminacionSala(<?php echo $sala['id_sala']; ?>)">Eliminar</a>
                 </div>
             </div>

@@ -77,7 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap" rel="stylesheet">
-    <script src="../../js/validacion-añadir.js" defer></script>
+    <script src="../../js/validacion-añadir-sala.js" defer></script>
 </head>
 <body>
 
@@ -96,12 +96,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <form id="addSalaForm" method="POST" action="" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="nombre_sala">Nombre de la Sala</label>
-                    <input type="text" id="nombre_sala" name="nombre_sala" placeholder="Ingresa el nombre de la sala" onblur="validateNombreSala()" required>
+                    <input type="text" id="nombre_sala" name="nombre_sala" placeholder="Ingresa el nombre de la sala" onblur="validateNombreSala()">
                     <span id="nombreSalaError" class="error-message"></span> 
                 </div>
                 <div class="form-group">
                     <label for="tipo_sala">Tipo de Sala</label>
-                    <select id="tipo_sala" name="tipo_sala" required>
+                    <select id="tipo_sala" name="tipo_sala" onblur="validateTipoSala()">
                         <option value="">Selecciona un tipo</option>
                         <option value="terraza">Terraza</option>
                         <option value="comedor">Comedor</option>
@@ -111,7 +111,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
                 <div class="form-group">
                     <label for="imagen_sala">Imagen de la Sala</label>
-                    <input type="file" id="imagen_sala" name="imagen_sala" accept="image/*" required>
+                    <input type="file" id="imagen_sala" name="imagen_sala" accept="image/*" onblur="validateImagenSala()">
                     <span id="imagenSalaError" class="error-message"></span>
                 </div>
                 <button type="submit">Añadir Sala</button>

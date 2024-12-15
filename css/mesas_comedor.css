@@ -7,68 +7,57 @@
 body {
     font-family: Arial, sans-serif;
     height: 100vh;
-    margin-top: 80px; /* Espacio superior para que no se superponga la navbar */
 }
 
 .navbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    background-color: #a36f53; /* Color marrón de la navbar */
+    background-color: #a36f53;
     color: #fff;
-    padding: 8px 0;
+    padding: 8px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    z-index: 1000; /* Asegura que la navbar esté encima */
 }
 
-.icon {
-    height: 60px;
-    width: 40px;
+.navbar .icon {
+    width: 100px;
+    height: auto;
 }
 
 .navbar .user-info {
-    display: flex;
-    align-items: center;
+    flex: 1;
+    text-align: center;
 }
 
 .navbar .user-info span {
-    margin-left: 40px;
-}
-
-.dropdown i {
-    margin-right: 25px;
-}
-
-.dropdown {
-    position: relative;
     display: inline-block;
+    margin-right: 15px;
 }
 
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f9f9f9;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-}
-
-.dropdown:hover .dropdown-content {
-    display: block;
-}
-
-.dropdown-content a {
-    color: black;
-    padding: 12px 16px;
+.navbar .user-info a {
+    color: #fff;
     text-decoration: none;
-    display: block;
+    margin: 0 10px;
 }
 
-.dropdown-content a:hover {
-    background-color: #f1f1f1;
+.navbar .user-info .history-button {
+    margin-left: 15px;
+    padding: 5px 10px;
+    background-color: #d4a373;
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.navbar .user-info .history-button:hover {
+    background-color: #b97f52;
+}
+
+.logout {
+    text-decoration: none;
+    color: white;
+    margin-left: 10px;
 }
 
 .slider-container {
@@ -76,8 +65,8 @@ body {
     margin: 20px auto;
     width: 90%;
     overflow: hidden;
-    z-index: 1; /* Asegura que el slider esté debajo de la navbar */
-    padding-top: 20px; /* Ajusta el espacio superior */
+    z-index: 1;
+    padding-top: 20px;
 }
 
 .slider {
@@ -101,6 +90,7 @@ body {
     justify-content: center;
     border-radius: 10px;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
 }
 
 .option h2 {
@@ -169,7 +159,6 @@ body {
     margin-top: 10px;
 }
 
-/* Estilos para el popup */
 .popup {
     display: none;
     position: fixed;
@@ -179,8 +168,8 @@ body {
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgb(0,0,0);
-    background-color: rgba(0,0,0,0.4);
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
 }
 
 .popup-content {
@@ -206,24 +195,173 @@ body {
     cursor: pointer;
 }
 
-/* Estilos adicionales para formularios */
-form input[type="text"], form input[type="number"] {
+form input[type="text"],
+form input[type="number"] {
     width: 100%;
     padding: 10px;
     margin: 10px 0;
 }
 
+.banner {
+    background-image: url('../img/mesa.jpg');
+    background-size: cover;
+    background-position: center;
+    padding: 30px 10px;
+    border-radius: 15px;
+    color: white;
+    text-align: center;
+    margin-left: 47px;
+    margin-top: 20px;
+    width: 93%;
+    opacity: 0.9;
+}
+
+.no-mesas {
+    text-align: center;
+    margin-top: 100px;
+    font-size: 30px;
+    font-weight: 600;
+}
+
+.banner h1 {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+    font-weight: 600;
+}
+
+.banner .add-button {
+    background-color: #4CAF50;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+    color: white;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    display: inline-block;
+}
+
+.banner .add-button:hover {
+    background-color: #3e8e41;
+}
+
+.delete-form {
+    margin-top: 10px;
+}
+
+.delete-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #ff0000;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    text-decoration: none;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.432);
+}
+
+.delete-button:hover {
+    background-color: #cc0000;
+}
+
+.button-container {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.option .select-button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #d4a373;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.3s;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.432);
+}
+
+.option .select-button:hover {
+    background-color: #b97f52;
+}
+
+.option .edit-button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #2daa31;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.3s;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.432);
+}
+
+.option .edit-button:hover {
+    background-color: #45ca49;
+}
+
+.option .free-button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #d4a373;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.3s;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.432);
+}
+
+.option .free-button:hover {
+    background-color: #b97f52;
+}
+
 @media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .navbar .user-info {
+        margin-top: 10px;
+        font-size: 13px;
+    }
+    .banner h1 {
+        font-size: 1.5em;
+    }
     .slider {
         flex-direction: column;
         align-items: center;
     }
-
     .option {
         width: 100%;
     }
-
     .slider-container {
         width: 100%;
+    }
+    .no-mesas {
+        text-align: center;
+        margin-top: 100px;
+        font-size: 15px;
+        font-weight: 600;
+    }
+    .banner {
+        margin-left: 25px;
+        width: 87%;
+        margin-top: 20px
+    }
+    .icon {
+        margin-left: 145px;
+        margin-top: 10px;
+        margin-bottom: 10px;
     }
 }

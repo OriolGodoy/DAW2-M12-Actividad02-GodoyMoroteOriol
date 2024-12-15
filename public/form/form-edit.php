@@ -81,6 +81,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update'])) {
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap" rel="stylesheet">
+    <script src="../../js/validacion-edit.js"></script>
 
 </head>
 <body>
@@ -91,32 +92,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update'])) {
 
     <div class="container">
         <h1>Editar Usuario</h1>
-        <form action="form-edit.php?edit=<?php echo $user['id_usuario']; ?>" method="POST">
-            <input type="hidden" name="id_usuario" value="<?php echo $user['id_usuario']; ?>">
+        <form action="form-edit.php?edit=<?php echo $user['id_usuario']; ?>" method="POST" id="editUserForm">
+    <div class="form-group">
+        <label for="nombre_usuario">Nombre de Usuario</label>
+        <input type="text" id="nombre_usuario" name="nombre_usuario" value="<?php echo $user['nombre_usuario']; ?>" onblur="validateNombre()">
+        <div id="nombreError"></div>
+    </div>
 
-            <div class="form-group">
-                <label for="nombre_usuario">Nombre de Usuario</label>
-                <input type="text" id="nombre_usuario" name="nombre_usuario" value="<?php echo $user['nombre_usuario']; ?>" >
-            </div>
+    <div class="form-group">
+        <label for="email_usuario">Email</label>
+        <input type="email" id="email_usuario" name="email_usuario" value="<?php echo $user['email_usuario']; ?>" onblur="validateEmail()">
+        <div id="emailError"></div> 
+    </div>
 
-            <div class="form-group">
-                <label for="email_usuario">Email</label>
-                <input type="email" id="email_usuario" name="email_usuario" value="<?php echo $user['email_usuario']; ?>" >
-            </div>
+    <div class="form-group">
+        <label for="id_rol">Rol</label>
+        <select id="id_rol" name="id_rol" onblur="validateRol()">
+            <?php while ($role = $rolesStmt->fetch(PDO::FETCH_ASSOC)): ?>
+                <option value="<?php echo $role['id_rol']; ?>" <?php echo ($role['id_rol'] == $user['id_rol']) ? 'selected' : ''; ?>>
+                    <?php echo $role['nombre_rol']; ?>
+                </option>
+            <?php endwhile; ?>
+        </select>
+        <div id="roleError"></div> 
+    </div>
 
-            <div class="form-group">
-                <label for="id_rol">Rol</label>
-                <select id="id_rol" name="id_rol" >
-                    <?php while ($role = $rolesStmt->fetch(PDO::FETCH_ASSOC)): ?>
-                        <option value="<?php echo $role['id_rol']; ?>" <?php echo ($role['id_rol'] == $user['id_rol']) ? 'selected' : ''; ?>>
-                            <?php echo $role['nombre_rol']; ?>
-                        </option>
-                    <?php endwhile; ?>
-                </select>
-            </div>
+    <button type="submit" name="update">Actualizar</button>
+</form>
 
-            <button type="submit" name="update">Actualizar</button>
-        </form>
     </div>
     </div>
 </body>

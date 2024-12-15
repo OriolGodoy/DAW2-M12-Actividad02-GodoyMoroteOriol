@@ -31,13 +31,17 @@ CREATE TABLE tbl_mesa (
     FOREIGN KEY (id_sala) REFERENCES tbl_sala(id_sala)
 );
 
-CREATE TABLE tbl_reserva_recurso (
+CREATE TABLE tbl_reserva (
     id_reserva INT AUTO_INCREMENT PRIMARY KEY,
-    id_usuario INT NOT NULL, 
-    id_recurso INT, 
+    id_usuario INT NOT NULL,
+    id_mesa INT NOT NULL,
+    id_sala INT NOT NULL,
+    nombre_cliente VARCHAR(50) NOT NULL, 
     fecha_reserva DATE NOT NULL,
     hora_inicio TIME NOT NULL,
     hora_fin TIME NOT NULL,
+    FOREIGN KEY (id_mesa) REFERENCES tbl_mesa(id_mesa),
+    FOREIGN KEY (id_sala) REFERENCES tbl_sala(id_sala),
     FOREIGN KEY (id_usuario) REFERENCES tbl_usuario(id_usuario)
 );
 
@@ -45,7 +49,6 @@ CREATE TABLE tbl_ocupacion (
     id_ocupacion INT AUTO_INCREMENT PRIMARY KEY,
     id_mesa INT NOT NULL,
     id_usuario INT NOT NULL, 
-    id_cliente INT NOT NULL,
     fecha_hora_ocupacion DATETIME NOT NULL,
     fecha_hora_desocupacion DATETIME,
     FOREIGN KEY (id_mesa) REFERENCES tbl_mesa(id_mesa),
@@ -65,10 +68,6 @@ INSERT INTO tbl_usuario (nombre_usuario, email_usuario, password_usuario, id_rol
 ('Admin User', 'admin@example.com', '$2a$12$b509yhiIiUsHDKfE8HdNnea.1OEVhd4ukrnc54axOg5TDuDE2MNgC', 1), -- zxcZXC789
 ('Mario Manzano', 'mario@example.com', '$2a$12$NtbM8IYMhhkOlUl9uZ7XMenWrzmSEp6DcFfQijiMs/cmjwN2MP2bi', 3), -- qweQWE123
 ('Alan Capoue', 'alan@example.com', '$2a$12$NtbM8IYMhhkOlUl9uZ7XMenWrzmSEp6DcFfQijiMs/cmjwN2MP2bi', 4); -- qweQWE123
-
-INSERT INTO tbl_reserva_recurso (id_usuario, fecha_reserva, hora_inicio, hora_fin) VALUES
-(1, '2024-12-10', '12:00:00', '14:00:00'),
-(2, '2024-12-10', '18:00:00', '20:00:00');
 
 INSERT INTO tbl_sala (id_sala, nombre_sala, tipo_sala, imagen_sala) VALUES
 (1, 'Terraza Principal', 'terraza','../img/terraza1.jpeg'),

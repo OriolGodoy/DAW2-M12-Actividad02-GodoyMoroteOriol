@@ -1,36 +1,174 @@
+/* Reseteo de márgenes y paddings */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Quicksand", serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+}
+
+
+/* Estilos generales del cuerpo de la página */
+
 body {
-    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
     background-color: #f0f0f0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    /* Asegura que la página comience en la parte superior */
 }
-.container {
-    margin: 20px auto;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    max-width: 800px;
+
+
+/* Barra de navegación */
+
+.navbar {
+    background-color: #a36f53;
+    color: #fff;
+    width: 100%;
+    padding: 12px 20px;
+    /* Ajustado para que tenga más espacio */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    /* Esto hace que el navbar se quede en la parte superior */
+    top: 0;
+    left: 0;
+    z-index: 100;
+    /* Asegura que la barra esté encima de otros elementos */
 }
-h1 {
+
+.navbar .icon {
+    width: 100px;
+    height: auto;
+}
+
+.navbar .user-info {
+    flex: 1;
     text-align: center;
 }
-form {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
+
+.navbar .user-info span {
+    display: inline-block;
+    margin-right: 15px;
+}
+
+.navbar .user-info a {
+    color: #fff;
+    text-decoration: none;
+    margin: 0 10px;
+}
+
+
+/* Botón para ver historial */
+
+.navbar .user-info .history-button {
+    margin-left: 15px;
+    padding: 8px 16px;
+    background-color: #d4a373;
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.navbar .user-info .history-button:hover {
+    background-color: #b97f52;
+}
+
+
+/* Ajuste del contenedor principal */
+
+.container {
+    margin-top: 100px;
+    /* Espacio suficiente para que no se sobreponga con la navbar */
+    max-width: 1200px;
+    width: 100%;
+    padding: 20px;
+}
+
+
+/* Títulos principales */
+
+h1 {
+    text-align: center;
+    color: #333;
     margin-bottom: 20px;
 }
-label, input, button {
-    margin: 5px;
-}
+
+
+/* Estilo para las tablas */
+
 table {
     width: 100%;
     border-collapse: collapse;
+    margin: 20px 0;
 }
-th, td {
+
+table,
+th,
+td {
+    border: 1px solid #ddd;
+}
+
+th,
+td {
     padding: 10px;
-    border: 1px solid #ccc;
-    text-align: center;
+    text-align: left;
 }
+
 th {
-    background-color: #333;
-    color: #fff;
+    background-color: #f2f2f2;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+td[colspan="8"],
+td[colspan="5"] {
+    text-align: center;
+    color: #777;
+}
+
+
+/* Media Queries para pantallas pequeñas */
+
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .navbar .user-info {
+        margin-top: 10px;
+        justify-content: flex-start;
+    }
+    .navbar .user-info span {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+    .container {
+        margin-top: 120px;
+        /* Ajuste de margen para la barra de navegación fija */
+        padding: 10px;
+    }
+    table {
+        font-size: 14px;
+    }
+    table th,
+    table td {
+        padding: 8px;
+    }
+    .navbar .user-info .history-button {
+        font-size: 12px;
+        padding: 5px 10px;
+    }
 }

@@ -1,5 +1,6 @@
 <?php
 session_start();
+require_once "../db/conexion.php";
 
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     header("Location: ../index.php"); 
@@ -20,7 +21,6 @@ if ($_SESSION['rol_usuario'] !== "Administrador") {
     }
 }
 
-require_once "../db/conexion.php";
 
 $query = "SELECT u.id_usuario, u.nombre_usuario, u.email_usuario, r.nombre_rol 
           FROM tbl_usuario u
@@ -66,8 +66,8 @@ if (isset($_GET['delete'])) {
             <span><?php echo $_SESSION['nombre_usuario']; ?></span>
             <a href="./historial_ocupaciones.php" class="history-button">Ver Historial</a>
             <a href="./dashboard-admin.php" class="logout">Gestionar Salas</a>
-            <a href="../private/logout.php" class="logout">Cerrar Sesión</a>
-        </div>
+            <a href="#" class="logout" onclick="cerrarSesion()">Cerrar Sesión</a>
+            </div>
     </div>
     <div class="banner">
         <h1>Quieres crear un usuario?</h1>

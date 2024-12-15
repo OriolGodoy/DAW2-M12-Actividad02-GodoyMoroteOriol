@@ -272,4 +272,17 @@
                 margin-top: 10px;
                 margin-bottom: 10px;
             }
+            .users-list {
+                margin-left: 13px;
+            }
+            .user-card {
+                width: 340px;
+            }
+            .banner {
+                margin-left: 23px;
+                width: 87%;
+            }
+            .banner h1 {
+                font-size: 1.3rem;
+            }
         }

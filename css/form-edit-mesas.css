@@ -1,0 +1,191 @@
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Quicksand", serif;
+        font-optical-sizing: auto;
+        font-weight: 500;
+        font-style: normal;
+    }
+    
+    body {
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        background-color: #f0f0f0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .main-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 90%;
+        max-width: 1200px;
+        height: 100vh;
+    }
+    
+    .logo-container {
+        text-align: center;
+    }
+    
+    .icon {
+        width: 400px;
+        display: block;
+        margin-left: 90px;
+    }
+    
+    .container {
+        max-width: 600px;
+        width: 100%;
+        padding: 30px;
+        border-radius: 10px;
+    }
+    
+    h1 {
+        text-align: center;
+        color: #a36f53;
+        margin-bottom: 20px;
+    }
+    
+    .form-group {
+        margin-bottom: 15px;
+    }
+    
+    label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 5px;
+        color: #4a403a;
+        text-align: left;
+    }
+    
+    input,
+    select {
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid #d4a373;
+        border-radius: 5px;
+        background-color: #fff;
+        transition: border-color 0.3s;
+    }
+    
+    input:focus,
+    select:focus {
+        border-color: #a36f53;
+        outline: none;
+    }
+    
+    button[type="submit"] {
+        width: 100%;
+        padding: 10px;
+        background-color: #d4a373;
+        color: #fff;
+        font-size: 1.2rem;
+        font-weight: bold;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+        margin-top: 15px;
+        margin-bottom: 0;
+    }
+    
+    button[type="submit"]:hover {
+        background-color: #a36f53;
+        transform: translateY(-2px);
+    }
+    
+    .message {
+        margin-bottom: 15px;
+        padding: 10px;
+        border-radius: 5px;
+        font-size: 14px;
+        text-align: center;
+    }
+    
+    .message p {
+        margin: 0;
+    }
+    
+    .message.error {
+        background-color: #f8d7da;
+        color: #721c24;
+    }
+    
+    .message.success {
+        background-color: #d4edda;
+        color: #155724;
+    }
+    
+    .error-message {
+        color: red;
+        font-size: 0.9rem;
+        margin-top: 5px;
+        margin-bottom: 10px;
+        text-align: left;
+    }
+    
+    .input-error {
+        border: 2px solid red !important;
+    }
+    
+    .input-valid {
+        border: 1px solid #d4a373;
+    }
+    
+    .mesas-list {
+        margin-left: 20px;
+        margin-top: 10px;
+    }
+    
+    .cancel-button {
+        padding: 10px 20px;
+        border: none;
+        background-color: #e71010;
+        color: white;
+        cursor: pointer;
+        border-radius: 5px;
+        text-decoration: none;
+        display: inline-block;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+        box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.432);
+        margin-top: 10px;
+        width: 100%;
+        text-align: center;
+    }
+    
+    .cancel-button:hover {
+        background-color: #b82a2a;
+        transform: translateY(-2px);
+    }
+    
+    @media (max-width: 768px) {
+        .main-container {
+            flex-direction: column;
+            height: auto;
+            justify-content: flex-start;
+            align-items: center;
+        }
+        .logo-container {
+            margin-bottom: 20px;
+        }
+        .icon {
+            width: 100px;
+            margin-left: 0;
+        }
+        .container {
+            max-width: 100%;
+            padding: 20px;
+            margin: 0 10px;
+        }
+        h1 {
+            font-size: 24px;
+        }
+        button[type="submit"] {
+            padding: 12px;
+        }
+    }

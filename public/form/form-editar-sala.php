@@ -94,7 +94,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap" rel="stylesheet">
-        <script src="../../js/validacion-editar.js" defer></script>
+        <script src="../../js/validacion-editar-sala.js" defer></script>
     </head>
     <body>
 
@@ -113,7 +113,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <form id="editSalaForm" method="POST" action="" enctype="multipart/form-data">
                     <div class="form-group">
                         <label for="nombre_sala">Nombre de la Sala</label>
-                        <input type="text" id="nombre_sala" name="nombre_sala" value="<?php echo htmlspecialchars($sala['nombre_sala']); ?>" required>
+                        <input type="text" id="nombre_sala" name="nombre_sala" value="<?php echo htmlspecialchars($sala['nombre_sala']); ?>" onblur="validateNombreSala()">
+                        <span id="nombreSalaError" class="error-message"></span>
                     </div>
                     <div class="form-group">
                         <label for="imagen_sala">Imagen de la Sala</label>
@@ -121,6 +122,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <p>Imagen actual: <?php echo $sala['imagen_sala']; ?></p>
                     </div>
                     <button type="submit">Guardar Cambios</button>
+                    <a href="javascript:void(0);" onclick="window.history.back();" class="cancel-button">Cancelar</a>
                 </form>
             </div>
         </div>

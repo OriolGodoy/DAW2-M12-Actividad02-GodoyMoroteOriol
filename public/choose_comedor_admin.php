@@ -7,6 +7,20 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     exit();
 }
 
+if ($_SESSION['rol_usuario'] !== "Administrador") {
+    switch ($_SESSION['rol_usuario']) {
+        case 'Camarero':
+            header("Location: ./panelCamarero.php");
+            exit();
+        case 'Gerente':
+            header("Location: ./panelGerente.php");
+            exit();
+        default:
+            header("Location: ./dashboard.php");
+            exit();
+    }
+}   
+
 if (isset($_GET['delete'])) {
     $id_sala = $_GET['delete'];
 
@@ -18,7 +32,6 @@ if (isset($_GET['delete'])) {
     header("Location: choose_comedor_admin.php");
     exit();
 }
-
 
 try {
     $query = "SELECT id_sala, nombre_sala, imagen_sala FROM tbl_sala WHERE tipo_sala = 'comedor'";
@@ -45,35 +58,35 @@ try {
 </head>
 <body>
 <div class="navbar">
-<a href="dashboard-admin.php"><img src="../img/icon.png" class="icon"></a>
-<div class="user-info">
-            <span><?php echo htmlspecialchars($_SESSION['nombre_usuario']); ?></span>
-            <a href="./historial_ocupaciones.php" class="history-button">Ver Historial</a>
-            <a href="./panelAdmin.php" class="logout">Gestionar Usuarios</a>
-            <a href="../private/logout.php" class="logout">Cerrar Sesión</a>
-        </div>
+    <a href="dashboard-admin.php"><img src="../img/icon.png" class="icon"></a>
+    <div class="user-info">
+        <span><?php echo htmlspecialchars($_SESSION['nombre_usuario']); ?></span>
+        <a href="./historial_ocupaciones.php" class="history-button">Ver Historial</a>
+        <a href="./panelAdmin.php" class="logout">Gestionar Usuarios</a>
+        <a href="#" class="logout" onclick="cerrarSesion()">Cerrar Sesión</a>
     </div>
-    <div class="banner">
-        <h1>Quieres crear una sala?</h1>
-        <a href="./form/form-añadir-sala.php" class="add-button">Añadir Sala</a>
-    </div>
+</div>
+<div class="banner">
+    <h1>Quieres crear una sala?</h1>
+    <a href="./form/form-añadir-sala.php" class="add-button">Añadir Sala</a>
+</div>
 
-<form action="gestion_mesas.php" method="post" class="options">
+<div class="options">
     <?php if ($salas): ?>
         <?php foreach ($salas as $sala): ?>
             <div class="option" style="background-image: url('<?php echo htmlspecialchars($sala['imagen_sala']); ?>');">
                 <h2><?php echo htmlspecialchars($sala['nombre_sala']); ?></h2>
                 <div class="button-container">
-                    <button type="submit" name="sala" value="<?php echo htmlspecialchars($sala['id_sala']); ?>" class="select-button">Seleccionar</button>
+                    <a href="gestion_mesas.php?id_sala=<?php echo htmlspecialchars($sala['id_sala']); ?>" class="select-button">Seleccionar</a>
                     <a href="./form/form-editar-sala.php?id=<?php echo htmlspecialchars($sala['id_sala']); ?>" class="edit-button">Editar</a>
-                    <a href="#" class="delete-button" onclick=" confirmarEliminacionSalaComedor(<?php echo $sala['id_sala']; ?>)">Eliminar</a>
+                    <a href="#" class="delete-button" onclick="confirmarEliminacionSalaComedor(<?php echo $sala['id_sala']; ?>)">Eliminar</a>
                 </div>
             </div>
         <?php endforeach; ?>
     <?php else: ?>
         <p>No hay comedores disponibles.</p>
     <?php endif; ?>
-</form>
+</div>
 
 <script src="../js/sweet_alert.js"></script>
 
