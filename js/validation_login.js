@@ -35,10 +35,6 @@ function validaPassword() {
         pwdError.textContent = "La contraseña debe tener 8 caracteres mínimo.";
         inputPwd.classList.add("error-border");
         return false;
-    } else if (!pwd.match(/[A-Z]/) || !pwd.match(/[a-z]/) || !pwd.match(/[0-9]/)) {
-        pwdError.textContent = "La contraseña debe contener al menos una letra mayúscula, una minúscula y un número.";
-        inputPwd.classList.add("error-border");
-        return false;
     } else {
         pwdError.textContent = "";
         inputPwd.classList.remove("error-border");

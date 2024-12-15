@@ -59,6 +59,12 @@ body {
     background-color: #b97f52;
 }
 
+.logout {
+    text-decoration: none;
+    color: white;
+    margin-left: 10px;
+}
+
 .options {
     display: flex;
     justify-content: space-between;
@@ -72,40 +78,18 @@ body {
     margin: 0 10px;
     padding: 20px;
     text-align: center;
+    background-size: cover;
+    background-position: center;
     color: white;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    height: 100%;
+    border: none;
     border-radius: 10px;
     border: 1px solid #d4a373;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.option h2 {
-    margin: 0;
-    padding: 10px;
-}
-
-.button-container {
-    margin-top: 30px;
-    display: flex;
-    justify-content: center;
-}
-
-.option .select-button {
-    padding: 10px 20px;
-    border: none;
-    background-color: #d4a373;
-    color: white;
-    cursor: pointer;
-    border-radius: 5px;
-    text-decoration: none;
-    display: inline-block;
-    transition: background-color 0.3s;
-}
-
-.option .select-button:hover {
-    background-color: #b97f52;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
 }
 
 .option.terraza {
@@ -126,25 +110,109 @@ body {
     background-position: center;
 }
 
-.extra-buttons {
-    display: none;
-    justify-content: space-between;
-    margin-top: 10px;
+.option h2 {
+    margin: 0;
+    padding: 10px;
+    text-decoration: none;
+    border-radius: 5px;
 }
 
-.extra-buttons button {
+.button-container {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.option .select-button {
     padding: 10px 20px;
-    margin: 0 5px;
     border: none;
     background-color: #d4a373;
     color: white;
     cursor: pointer;
     border-radius: 5px;
+    text-decoration: none;
+    display: inline-block;
     transition: background-color 0.3s;
 }
 
-.extra-buttons button:hover {
+.option .select-button:hover {
     background-color: #b97f52;
+}
+
+.option .edit-button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.3s;
+}
+
+.option .edit-button:hover {
+    background-color: #45ca49;
+}
+
+.option:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.banner {
+    background-image: url('../img/camarero.jpeg');
+    background-size: cover;
+    background-position: center;
+    padding: 30px 10px;
+    border-radius: 15px;
+    color: white;
+    text-align: center;
+    margin-left: 47px;
+    margin-top: 20px;
+    width: 93%;
+    opacity: 0.9;
+}
+
+.banner h1 {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+    font-weight: 600;
+}
+
+.banner .add-button {
+    background-color: #4CAF50;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+    color: white;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    display: inline-block;
+}
+
+.banner .add-button:hover {
+    background-color: #3e8e41;
+}
+
+.delete-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #ff0000;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.delete-button:hover {
+    background-color: #cc0000;
 }
 
 @media (max-width: 768px) {
@@ -166,5 +234,18 @@ body {
     }
     .navbar .user-info {
         margin-top: 10px;
+        font-size: 13px;
+    }
+    .banner {
+        margin-left: 25px;
+        width: 87%;
+    }
+    .banner h1 {
+        font-size: 1.3rem;
+    }
+    .icon {
+        margin-left: 145px;
+        margin-top: 10px;
+        margin-bottom: 10px;
     }
 }

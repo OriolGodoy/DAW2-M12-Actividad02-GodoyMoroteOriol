@@ -15,7 +15,7 @@ if ($_SESSION['rol_usuario'] !== "Administrador") {
             header("Location: ../panelGerente.php");
             exit();
         default:
-            header("Location: ../dashboard.php");
+            header("Location: ../paginaInicio.php");
             exit();
     }
 }
@@ -31,24 +31,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $confirm_password = $_POST['confirm_password'];
     $rol = $_POST['id_rol'];
 
-    if ($password !== $confirm_password) {
+    if (empty($nombre) || strlen($nombre) < 3) {
+        $message = "Error: El nombre debe tener al menos 3 caracteres.";
+    } elseif (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $message = "Error: El correo electrónico no es válido.";
+    } elseif (empty($password) || strlen($password) < 8) {
+        $message = "Error: La contraseña debe tener al menos 8 caracteres.";
+    } elseif ($password !== $confirm_password) {
         $message = "Error: Las contraseñas no coinciden.";
+    } elseif (empty($rol)) {
+        $message = "Error: Debes seleccionar un rol.";
     } else {
         try {
-            $hashed_password = password_hash($password, PASSWORD_BCRYPT);
+            $checkEmailQuery = "SELECT COUNT(*) FROM tbl_usuario WHERE email_usuario = ?";
+            $stmt = $conn->prepare($checkEmailQuery);
+            $stmt->execute([$email]);
+            $emailCount = $stmt->fetchColumn();
 
-            $query = "INSERT INTO tbl_usuario (nombre_usuario, email_usuario, password_usuario, id_rol) VALUES (?, ?, ?, ?)";
-            $stmt = $conn->prepare($query);
-            $stmt->execute([$nombre, $email, $hashed_password, $rol]);
+            if ($emailCount > 0) {
+                $message = "Error: El correo electrónico ya está en uso.";
+            } else {
+                $hashed_password = password_hash($password, PASSWORD_BCRYPT);
 
+                $insertQuery = "INSERT INTO tbl_usuario (nombre_usuario, email_usuario, password_usuario, id_rol) 
+                                VALUES (?, ?, ?, ?)";
+                $insertStmt = $conn->prepare($insertQuery);
+                $insertStmt->execute([$nombre, $email, $hashed_password, $rol]);
 
-            header("Location: ../panelAdmin.php");
-            exit();
-        exit();
+                header("Location: ../panelAdmin.php");
+                exit();
+            }
         } catch (PDOException $e) {
             $message = "Error: No se pudo añadir el usuario. Por favor, intenta de nuevo.";
         }
     }
+
 }
 ?>
 

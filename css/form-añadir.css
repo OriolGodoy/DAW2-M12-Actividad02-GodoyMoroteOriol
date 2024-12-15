@@ -98,12 +98,22 @@ button[type="submit"]:hover {
     transform: translateY(-2px);
 }
 
-.message {
-    margin-bottom: 15px;
+.errors {
+    margin-bottom: 10px;
     padding: 10px;
     border-radius: 5px;
-    font-size: 14px;
+    font-size: 20px;
     text-align: center;
+    color: #ff0821;
+}
+
+.message {
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 20px;
+    text-align: center;
+    color: #ff0821;
 }
 
 .message p {

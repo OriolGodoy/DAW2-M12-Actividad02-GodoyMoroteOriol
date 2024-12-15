@@ -6,21 +6,6 @@
         header("Location: ../index.php");
         exit();
     }
-    
-if ($_SESSION['rol_usuario'] !== "Administrador") {
-    switch ($_SESSION['rol_usuario']) {
-        case 'Camarero':
-            header("Location: ./panelCamarero.php");
-            exit();
-        case 'Gerente':
-            header("Location: ./panelGerente.php");
-            exit();
-        default:
-            header("Location: ../paginaInicio.php.php");
-            exit();
-    }
-}   
-
 
     if (isset($_GET['id_sala'])) {
         $id_sala = $_GET['id_sala'];        
@@ -97,17 +82,11 @@ if ($_SESSION['rol_usuario'] !== "Administrador") {
         <div class="user-info">
             <span><?php echo ($_SESSION['nombre_usuario']); ?></span>
             <a href="./historial_ocupaciones.php" class="history-button">Ver Historial</a>
-            <a href="./panelAdmin.php" class="logout">Gestionar Usuarios</a>
             <a href="#" class="logout" onclick="cerrarSesion()">Cerrar Sesión</a>
             </div>
     </div>
 
     <?php if (isset($sala)): ?>
-        <div class="banner">
-            <h1>Mesas en la sala: <?php echo htmlspecialchars($sala['nombre_sala']); ?></h1>
-            <a href="./form/form-añadir-mesa.php?id_sala=<?php echo htmlspecialchars($id_sala); ?>" class="add-button">Añadir Mesa</a>
-        </div>
-
         <?php if ($mesas): ?>
             <div class="slider-container">
                 <button id="prevArrow" class="arrow-btn">&lt;</button>
@@ -118,18 +97,13 @@ if ($_SESSION['rol_usuario'] !== "Administrador") {
                                 <p>Sillas: <?php echo htmlspecialchars($mesa['num_sillas_mesa']); ?></p>
                                 <p>Estado: <?php echo htmlspecialchars($mesa['estado_mesa']); ?></p>
                             <div class="button-container">
-                                <form action="../actions/ocupar_mesa.php" method="post">
+                                <form action="../actions/ocupar_mesa-all.php" method="post">
                                     <input type="hidden" name="id_mesa" value="<?php echo htmlspecialchars($mesa['id_mesa']); ?>">
                                     <input type="hidden" name="id_sala" value="<?php echo htmlspecialchars($id_sala); ?>">
                                     <input type="hidden" name="estado_actual" value="<?php echo htmlspecialchars($mesa['estado_mesa']); ?>">
                                     <button type="submit" class="<?php echo $mesa['estado_mesa'] == 'libre' ? 'select-button' : 'free-button'; ?>">
                                     <?php echo $mesa['estado_mesa'] == 'libre' ? 'Ocupar' : 'Desocupar'; ?>
                                     </button>
-                                </form>
-                                <a href="./form/form-editar-mesa.php?id=<?php echo htmlspecialchars($mesa['id_mesa']); ?>" class="edit-button">Editar</a>
-                                <form action="" method="post">
-                                    <input type="hidden" name="id_mesa" value="<?php echo htmlspecialchars($mesa['id_mesa']); ?>">
-                                    <button type="submit" class="delete-button">Eliminar</button>
                                 </form>
                             </div>
                         </div>

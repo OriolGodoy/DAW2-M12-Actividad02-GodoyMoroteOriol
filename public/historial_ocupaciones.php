@@ -2,6 +2,11 @@
 require_once "../db/conexion.php";
 session_start();
 
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+    header("Location: ../index.php");
+    exit();
+}
+
 $reservaQuery = "SELECT r.nombre_cliente, u.nombre_usuario, r.id_mesa, r.fecha_reserva, r.hora_inicio, r.hora_fin
                  FROM tbl_reserva r
                  JOIN tbl_usuario u ON r.id_usuario = u.id_usuario
@@ -30,6 +35,7 @@ $ocupacionStmt->execute();
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="../js/validacion-reserva.js"></script>
 </head>
 <body>
 <div class="navbar">

@@ -2,21 +2,21 @@
 session_start();
 
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-    header("Location: ../index.php"); 
+    header("Location: ../index.php");
     exit();
 }
 
-if ($_SESSION['rol_usuario'] !== "Administrador") {
+if ($_SESSION['rol_usuario'] !== "Camarero") {
     switch ($_SESSION['rol_usuario']) {
-        case 'Camarero':
-            header("Location: ./panelCamarero.php");
-            exit();
         case 'Gerente':
             header("Location: ./panelGerente.php");
-            exit();
+           exit();
+        case 'Administrador':
+            header("Location: ./panelAdmin.php");
+           exit();
         default:
-            header("Location: ../paginaInicio.php");
-            exit();
+            header("Location: ./paginaInicio.php");
+           exit();
     }
 }
 ?>
@@ -27,45 +27,51 @@ if ($_SESSION['rol_usuario'] !== "Administrador") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Seleccionar sala</title>
-    <link rel="stylesheet" href="../css/dashboard-admin.css">
+    <link rel="stylesheet" href="../css/panelCamarero.css">
     <link rel="shortcut icon" href="../img/icon.png" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="../js/sweet_alert.js"></script>
+
 </head>
 <body>
 <div class="navbar">
-        <img src="../img/icon.png" class="icon">
-        <div class="user-info">
-            <span><?php echo $_SESSION['nombre_usuario']; ?></span>
-            <a href="./historial_ocupaciones.php" class="history-button">Ver Historial</a>
-            <a href="./panelAdmin.php" class="logout">Gestionar Usuarios</a>
-            <a href="#" class="logout" onclick="cerrarSesion()">Cerrar Sesión</a>
-            </div>
+    <img src="../img/icon.png" class="icon">
+    <div class="user-info">
+        <span><?php echo htmlspecialchars($_SESSION['nombre_usuario']); ?></span>
+        <a href="#" class="logout" onclick="cerrarSesion()">Cerrar Sesión</a>
     </div>
+</div>
+
+<div class="banner">
+        <h1>Quieres hacer una reserva?</h1>
+        <a href="./form/form-reserva.php" class="add-button">Hacer Reserva</a>
+    </div>
+
 <div class="options">
     <div class="option terraza">
         <h2>Terraza</h2>
         <div class="button-container">
-            <a href="./choose_terraza_admin.php" class="select-button">Seleccionar</a>
+            <a href="./choose_terraza.php" class="select-button">Seleccionar</a>
         </div>
     </div>
     <div class="option comedor">
         <h2>Comedor</h2>
         <div class="button-container">
-            <a href="./choose_comedor_admin.php" class="select-button">Seleccionar</a>
+            <a href="./choose_comedor.php" class="select-button">Seleccionar</a>
         </div>
     </div>
     <div class="option privadas">
-        <h2>Salas privada</h2>
+        <h2>Sala privada</h2>
         <div class="button-container">
-            <a href="./choose_privada_admin.php" class="select-button">Seleccionar</a>
+            <a href="./choose_privada.php" class="select-button">Seleccionar</a>
         </div>
     </div>
 </div>
 
-<script src="../js/sweet_alert.js"></script>
+<script src="../js/dashboard.js"></script>
 </body>
 </html>

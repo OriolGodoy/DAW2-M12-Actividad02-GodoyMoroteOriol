@@ -16,7 +16,7 @@ if ($_SESSION['rol_usuario'] !== "Administrador") {
             header("Location: ./panelGerente.php");
            exit();
         default:
-            header("Location: ./dashboard.php");
+            header("Location: ./paginaInicio.php");
            exit();
     }
 }
@@ -35,14 +35,34 @@ $rolesStmt->execute();
 if (isset($_GET['delete'])) {
     $id_usuario = $_GET['delete'];
 
-    $deleteQuery = "DELETE FROM tbl_usuario WHERE id_usuario = :id_usuario";
-    $deleteStmt = $conn->prepare($deleteQuery);
-    $deleteStmt->bindParam(':id_usuario', $id_usuario, PDO::PARAM_INT);
-    $deleteStmt->execute();
+    try {
+        $conn->beginTransaction();
 
-    header("Location: panelAdmin.php");
-    exit();
+        $deleteOcupacionesQuery = "DELETE FROM tbl_ocupacion WHERE id_usuario = :id_usuario";
+        $deleteOcupacionesStmt = $conn->prepare($deleteOcupacionesQuery);
+        $deleteOcupacionesStmt->bindParam(':id_usuario', $id_usuario, PDO::PARAM_INT);
+        $deleteOcupacionesStmt->execute();
+
+        $deleteReservasQuery = "DELETE FROM tbl_reserva WHERE id_usuario = :id_usuario";
+        $deleteReservasStmt = $conn->prepare($deleteReservasQuery);
+        $deleteReservasStmt->bindParam(':id_usuario', $id_usuario, PDO::PARAM_INT);
+        $deleteReservasStmt->execute();
+
+        $deleteUsuarioQuery = "DELETE FROM tbl_usuario WHERE id_usuario = :id_usuario";
+        $deleteUsuarioStmt = $conn->prepare($deleteUsuarioQuery);
+        $deleteUsuarioStmt->bindParam(':id_usuario', $id_usuario, PDO::PARAM_INT);
+        $deleteUsuarioStmt->execute();
+
+        $conn->commit();
+
+        header("Location: panelAdmin.php");
+        exit();
+    } catch (Exception $e) {
+        $conn->rollBack();
+        echo "Error al eliminar el usuario: " . $e->getMessage();
+    }
 }
+
 ?>
 
 <!DOCTYPE html>

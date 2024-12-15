@@ -16,53 +16,75 @@ if ($_SESSION['rol_usuario'] !== "Administrador") {
             header("Location: ../panelGerente.php");
             exit();
         default:
-            header("Location: ../dashboard.php");
+            header("Location: ../paginaInicio.php");
             exit();
     }
 }
 
-
 $message = "";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $nombre_sala = $_POST['nombre_sala'];
+    $nombre_sala = trim($_POST['nombre_sala']); 
     $tipo_sala = $_POST['tipo_sala'];
-    $imagen_sala = $_FILES['imagen_sala']['name'];
+    $imagen_sala = $_FILES['imagen_sala'];
 
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $nombre_sala = $_POST['nombre_sala'];
-        $tipo_sala = $_POST['tipo_sala'];
-        $imagen_sala = $_FILES['imagen_sala']['name'];
-        $upload_dir = "../../img/"; 
-        
-        if (!is_dir($upload_dir)) {
-            mkdir($upload_dir, 0755, true); 
+    $errores = []; 
+
+    if (empty($nombre_sala)) {
+        $errores[] = "El nombre de la sala es obligatorio.";
+    }
+    if (empty($tipo_sala)) {
+        $errores[] = "El tipo de sala es obligatorio.";
+    }
+
+    if (!empty($nombre_sala) && !preg_match("/^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$/", $nombre_sala)) {
+        $errores[] = "El nombre de la sala solo puede contener letras y espacios.";
+    }
+
+    if (empty($errores)) {
+        $queryNombre = "SELECT COUNT(*) FROM tbl_sala WHERE nombre_sala = ?";
+        $stmtNombre = $conn->prepare($queryNombre);
+        $stmtNombre->execute([$nombre_sala]);
+
+        if ($stmtNombre->fetchColumn() > 0) {
+            $errores[] = "El nombre de la sala ya existe. Por favor, elige otro.";
         }
-        
-        $nombre_unico = uniqid('sala_', true) . '.' . pathinfo($imagen_sala, PATHINFO_EXTENSION);
-        $imagen_path = $upload_dir . $nombre_unico;
-        
-        if ($_FILES['imagen_sala']['error'] === UPLOAD_ERR_OK) {
-            if (move_uploaded_file($_FILES['imagen_sala']['tmp_name'], $imagen_path)) {
-                try {
-                    $ruta_relativa = "../img/" . $nombre_unico; 
-                    $query = "INSERT INTO tbl_sala (nombre_sala, tipo_sala, imagen_sala) VALUES (?, ?, ?)";
-                    $stmt = $conn->prepare($query);
-                    $stmt->execute([$nombre_sala, $tipo_sala, $ruta_relativa]);
-        
-                    header("Location: ../dashboard-admin.php");
-                    exit();
-                } catch (PDOException $e) {
-                    $message = "Error en la base de datos: " . $e->getMessage();
-                }
-            } else {
-                $message = "Error al mover la imagen al directorio de destino.";
+    }
+
+    if (empty($errores)) {
+        try {
+            $upload_dir = "../../img/";
+
+            if (!is_dir($upload_dir)) {
+                mkdir($upload_dir, 0755, true);
             }
-        } else {
-            $message = "Error al subir la imagen. Código: " . $_FILES['imagen_sala']['error'];
-        }            
+
+            $imagen_path = ""; 
+
+            if (!empty($imagen_sala['name']) && $imagen_sala['error'] === UPLOAD_ERR_OK) {
+                $nombre_unico = uniqid('sala_', true) . '.' . pathinfo($imagen_sala['name'], PATHINFO_EXTENSION);
+                $imagen_path = $upload_dir . $nombre_unico;
+
+                if (!move_uploaded_file($imagen_sala['tmp_name'], $imagen_path)) {
+                    throw new Exception("Error al mover la imagen al directorio.");
+                }
+
+                $imagen_path = "../img/" . $nombre_unico;
+            }
+
+            $query = "INSERT INTO tbl_sala (nombre_sala, tipo_sala, imagen_sala) VALUES (?, ?, ?)";
+            $stmt = $conn->prepare($query);
+            $stmt->execute([$nombre_sala, $tipo_sala, $imagen_path]);
+
+            header("Location: ../dashboard-admin.php");
+            exit();
+        } catch (PDOException $e) {
+            $errores[] = "Error en la base de datos: " . $e->getMessage();
+        } catch (Exception $e) {
+            $errores[] = $e->getMessage();
+        }
     }
-    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -80,44 +102,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <script src="../../js/validacion-añadir-sala.js" defer></script>
 </head>
 <body>
-
-    <div class="main-container">      
-        <div class="logo-container">
-            <img src="../../img/icon.png" class="icon" alt="Logo">
-        </div>
-        <div class="container">
-            <h1>Añadir Sala</h1>
-            <?php if (!empty($message)): ?>
-                <div class="message">
-                    <p><?php echo $message; ?></p>
-                </div>
-            <?php endif; ?>
-
-            <form id="addSalaForm" method="POST" action="" enctype="multipart/form-data">
-                <div class="form-group">
-                    <label for="nombre_sala">Nombre de la Sala</label>
-                    <input type="text" id="nombre_sala" name="nombre_sala" placeholder="Ingresa el nombre de la sala" onblur="validateNombreSala()">
-                    <span id="nombreSalaError" class="error-message"></span> 
-                </div>
-                <div class="form-group">
-                    <label for="tipo_sala">Tipo de Sala</label>
-                    <select id="tipo_sala" name="tipo_sala" onblur="validateTipoSala()">
-                        <option value="">Selecciona un tipo</option>
-                        <option value="terraza">Terraza</option>
-                        <option value="comedor">Comedor</option>
-                        <option value="privada">Privada</option>
-                    </select>
-                    <span id="tipoSalaError" class="error-message"></span>
-                </div>
-                <div class="form-group">
-                    <label for="imagen_sala">Imagen de la Sala</label>
-                    <input type="file" id="imagen_sala" name="imagen_sala" accept="image/*" onblur="validateImagenSala()">
-                    <span id="imagenSalaError" class="error-message"></span>
-                </div>
-                <button type="submit">Añadir Sala</button>
-            </form>
-        </div>
+<div class="main-container">
+    <div class="logo-container">
+        <img src="../../img/icon.png" class="icon" alt="Logo">
     </div>
+    <div class="container">
+        <h1>Añadir Sala</h1>
 
+        <?php if (!empty($errores)): ?>
+            <div class="errors">
+                    <?php foreach ($errores as $error): ?>
+                        <?php echo $error; ?>
+                    <?php endforeach; ?>
+        <?php endif; ?>
+
+        <form id="addSalaForm" method="POST" action="" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="nombre_sala">Nombre de la Sala</label>
+                <input type="text" id="nombre_sala" name="nombre_sala" placeholder="Ingresa el nombre de la sala" onblur="validateNombreSala()">
+                <span id="nombreSalaError" class="error-message"></span>
+            </div>
+            <div class="form-group">
+                <label for="tipo_sala">Tipo de Sala</label>
+                <select id="tipo_sala" name="tipo_sala" onblur="validateTipoSala()">
+                    <option value="">Selecciona un tipo</option>
+                    <option value="terraza">Terraza</option>
+                    <option value="comedor">Comedor</option>
+                    <option value="privada">Privada</option>
+                </select>
+                <span id="tipoSalaError" class="error-message"></span>
+            </div>
+            <div class="form-group">
+                <label for="imagen_sala">Imagen de la Sala</label>
+                <input type="file" id="imagen_sala" name="imagen_sala" accept="image/*" onblur="validateImagenSala()">
+                <span id="imagenSalaError" class="error-message"></span>
+            </div>
+            <button type="submit">Añadir Sala</button>
+        </form>
+    </div>
+</div>
 </body>
 </html>

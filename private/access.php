@@ -46,7 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         header("Location: ../public/panelGerente.php");
                         exit();
                     default:
-                        header("Location: ../public/dashboard.php");
+                        header("Location: ../public/paginaInicio.php");
                         exit();
                 }
             } else {
@@ -65,7 +65,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit();
     }
 } else {
-    header("Location: ../public/login.php");
+    header("Location: ../index.php");
     exit();
 }
 ?>

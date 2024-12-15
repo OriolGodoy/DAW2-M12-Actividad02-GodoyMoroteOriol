@@ -17,7 +17,7 @@ if ($_SESSION['rol_usuario'] !== "Administrador") {
             header("Location: ./panelGerente.php");
             exit();
         default:
-            header("Location: ./dashboard.php");
+            header("Location: ../paginaInicio.php");
             exit();
     }
 }
@@ -26,14 +26,39 @@ if ($_SESSION['rol_usuario'] !== "Administrador") {
 if (isset($_GET['delete'])) {
     $id_sala = $_GET['delete'];
 
-    $deleteQuery = "DELETE FROM tbl_sala WHERE id_sala = :id_sala";
-    $deleteStmt = $conn->prepare($deleteQuery);
-    $deleteStmt->bindParam(':id_sala', $id_sala, PDO::PARAM_INT);
-    $deleteStmt->execute();
+    try {
+        $conn->beginTransaction();
 
-    header("Location: choose_privada_admin.php");
-    exit();
+        $deleteOcupacionesQuery = "DELETE FROM tbl_ocupacion WHERE id_mesa IN (SELECT id_mesa FROM tbl_mesa WHERE id_sala = :id_sala)";
+        $deleteOcupacionesStmt = $conn->prepare($deleteOcupacionesQuery);
+        $deleteOcupacionesStmt->bindParam(':id_sala', $id_sala, PDO::PARAM_INT);
+        $deleteOcupacionesStmt->execute();
+
+        $deleteReservasQuery = "DELETE FROM tbl_reserva WHERE id_mesa IN (SELECT id_mesa FROM tbl_mesa WHERE id_sala = :id_sala)";
+        $deleteReservasStmt = $conn->prepare($deleteReservasQuery);
+        $deleteReservasStmt->bindParam(':id_sala', $id_sala, PDO::PARAM_INT);
+        $deleteReservasStmt->execute();
+
+        $deleteMesasQuery = "DELETE FROM tbl_mesa WHERE id_sala = :id_sala";
+        $deleteMesasStmt = $conn->prepare($deleteMesasQuery);
+        $deleteMesasStmt->bindParam(':id_sala', $id_sala, PDO::PARAM_INT);
+        $deleteMesasStmt->execute();
+
+        $deleteSalaQuery = "DELETE FROM tbl_sala WHERE id_sala = :id_sala";
+        $deleteSalaStmt = $conn->prepare($deleteSalaQuery);
+        $deleteSalaStmt->bindParam(':id_sala', $id_sala, PDO::PARAM_INT);
+        $deleteSalaStmt->execute();
+
+        $conn->commit();
+
+        header("Location: choose_privada_admin.php");
+        exit();
+    } catch (Exception $e) {
+        $conn->rollBack();
+        die("Error al eliminar la sala: " . $e->getMessage());
+    }
 }
+
 
 try {
     $query = "SELECT id_sala, nombre_sala, imagen_sala FROM tbl_sala WHERE tipo_sala = 'privada'";

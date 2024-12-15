@@ -1,11 +1,23 @@
 <?php
 session_start();
+require_once "../db/conexion.php";
 
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     header("Location: ../index.php");
     exit();
 }
+
+try {
+    $query = "SELECT id_sala, nombre_sala, imagen_sala FROM tbl_sala WHERE tipo_sala = 'privada'";
+    $stmt = $conn->prepare($query);
+    $stmt->execute();
+    $salas = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    die("Error al consultar comedores: " . $e->getMessage());
+}
+
 ?>
+
 
 <!DOCTYPE html>
 <html lang="es">
@@ -14,53 +26,40 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Seleccionar sala privada</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="../css/choose_privada.css">
+    <link rel="stylesheet" href="../css/choose_todos.css">
     <link rel="shortcut icon" href="../img/icon.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="../js/sweet_alert.js"></script>
 </head>
 
 <body>
 <div class="navbar">
-    <img src="../img/icon.png" class="icon">
+<a href="panelCamarero.php"><img src="../img/icon.png" class="icon"></a>
     <div class="user-info">
-        <div class="dropdown">
-            <i class="fas fa-caret-down" style="font-size: 16px; margin-right: 10px;"></i>
-            <div class="dropdown-content">
-                <a href="../private/logout.php">Cerrar Sesión</a>
-            </div>
-        </div>
-        <span><?php echo $_SESSION['nombre_usuario']; ?></span>
+        <span><?php echo htmlspecialchars($_SESSION['nombre_usuario']); ?></span>
+        <a href="./historial_ocupaciones.php" class="history-button">Ver Historial</a>
+        <a href="#" class="logout" onclick="cerrarSesion()">Cerrar Sesión</a>
     </div>
 </div>
 
-<form action="gestion_mesas.php" method="post" class="options">
-    <div class="option privada1">
-        <h2>Sala Privada 1</h2>
-        <div class="button-container">
-            <button type="submit" name="sala" value="sala_privada_1" class="select-button">Seleccionar</button>
-        </div>
-    </div>
-    <div class="option privada2">
-        <h2>Sala Privada 2</h2>
-        <div class="button-container">
-            <button type="submit" name="sala" value="sala_privada_2" class="select-button">Seleccionar</button>
-        </div>
-    </div>
-    <div class="option privada3">
-        <h2>Sala Privada 3</h2>
-        <div class="button-container">
-            <button type="submit" name="sala" value="sala_privada_3" class="select-button">Seleccionar</button>
-        </div>
-    </div>
-    <div class="option privada4">
-        <h2>Sala Privada 4</h2>
-        <div class="button-container">
-            <button type="submit" name="sala" value="sala_privada_4" class="select-button">Seleccionar</button>
-        </div>
-    </div>
-</form>
-
-    <script src="../js/dashboard.js"></script>
+<div class="options">
+    <?php if ($salas): ?>
+        <?php foreach ($salas as $sala): ?>
+            <div class="option" style="background-image: url('<?php echo htmlspecialchars($sala['imagen_sala']); ?>');">
+                <h2><?php echo htmlspecialchars($sala['nombre_sala']); ?></h2>
+                <div class="button-container">
+                    <a href="gestion_mesas-all.php?id_sala=<?php echo htmlspecialchars($sala['id_sala']); ?>" class="select-button">Seleccionar</a>
+                </div>
+            </div>
+        <?php endforeach; ?>
+    <?php else: ?>
+        <p>No hay comedores disponibles.</p>
+    <?php endif; ?>
+</div>
 </body>
 
 </html>

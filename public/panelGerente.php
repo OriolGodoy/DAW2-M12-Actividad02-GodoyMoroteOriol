@@ -15,7 +15,7 @@ if ($_SESSION['rol_usuario'] !== "Gerente") {
             header("Location: ./panelAdmin.php");
            exit();
         default:
-            header("Location: ./dashboard.php");
+            header("Location: ./paginaInicio.php");
            exit();
     }
 }
@@ -43,7 +43,7 @@ if ($_SESSION['rol_usuario'] !== "Gerente") {
         <div class="user-info">
             <span><?php echo $_SESSION['nombre_usuario']; ?></span>
             <a href="./historial_ocupaciones.php" class="history-button">Ver Historial</a>
-            <a href="../private/logout.php" class="logout">Cerrar Sesión</a>
+            <a href="#" class="logout" onclick="cerrarSesion()">Cerrar Sesión</a>
         </div>
     </div>
 
@@ -68,6 +68,6 @@ if ($_SESSION['rol_usuario'] !== "Gerente") {
     </div>
 </div>
 
-<script src="../js/dashboard.js"></script>
+<script src="../js/sweet_alert.js"></script>
 </body>
 </html>

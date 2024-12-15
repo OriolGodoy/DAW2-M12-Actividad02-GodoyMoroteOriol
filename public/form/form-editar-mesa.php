@@ -16,10 +16,10 @@ if ($_SESSION['rol_usuario'] !== "Administrador") {
             header("Location: ../panelGerente.php");
             exit();
         default:
-            header("Location: ../dashboard.php");
+            header("Location: ../paginaInicio.php");
             exit();
     }
-}   
+}
 
 if (isset($_GET['id'])) {
     $id_mesa = $_GET['id'];
@@ -47,20 +47,35 @@ if (isset($_GET['id'])) {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $num_sillas = $_POST['num_sillas'] ?? $mesa['num_sillas_mesa'];
         $id_sala = $_POST['id_sala'] ?? $mesa['id_sala'];
-        try {
-            $query = "UPDATE tbl_mesa 
-                      SET num_sillas_mesa = :num_sillas, id_sala = :id_sala 
-                      WHERE id_mesa = :id_mesa";
-            $stmt = $conn->prepare($query);
-            $stmt->bindParam(':num_sillas', $num_sillas, PDO::PARAM_INT);
-            $stmt->bindParam(':id_sala', $id_sala, PDO::PARAM_INT);
-            $stmt->bindParam(':id_mesa', $id_mesa, PDO::PARAM_INT);
-            $stmt->execute();
 
-            header("Location: ../gestion_mesas.php?id_sala=" . $id_sala);
-            exit();
-        } catch (PDOException $e) {
-            $message = "Error al actualizar la mesa: " . $e->getMessage();
+        $errores = []; 
+
+        if (empty($num_sillas)) {
+            $errores[] = "El número de sillas no puede estar vacío.";
+        } elseif (!in_array($num_sillas, [2, 3, 4, 5, 6, 10])) {
+            $errores[] = "El número de sillas debe ser uno de los siguientes: 2, 3, 4, 5, 6, 10.";
+        }
+
+        if (empty($id_sala) || !in_array($id_sala, array_column($salas, 'id_sala'))) {
+            $errores[] = "Debe seleccionar una sala válida.";
+        }
+
+        if (empty($errores)) {
+            try {
+                $query = "UPDATE tbl_mesa 
+                          SET num_sillas_mesa = :num_sillas, id_sala = :id_sala 
+                          WHERE id_mesa = :id_mesa";
+                $stmt = $conn->prepare($query);
+                $stmt->bindParam(':num_sillas', $num_sillas, PDO::PARAM_INT);
+                $stmt->bindParam(':id_sala', $id_sala, PDO::PARAM_INT);
+                $stmt->bindParam(':id_mesa', $id_mesa, PDO::PARAM_INT);
+                $stmt->execute();
+
+                header("Location: ../gestion_mesas.php?id_sala=" . $id_sala);
+                exit();
+            } catch (PDOException $e) {
+                $message = "Error al actualizar la mesa: " . $e->getMessage();
+            }
         }
     }
 } else {
@@ -81,7 +96,7 @@ if (isset($_GET['id'])) {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+    <script src="../../js/validacion-editar-mesa.js"></script>
 </head>
 <body>
 <div class="main-container">
@@ -91,13 +106,23 @@ if (isset($_GET['id'])) {
     <div class="container">
         <h1>Editar Mesa <?php echo htmlspecialchars($mesa['id_mesa']); ?></h1>
 
+        <?php if (!empty($errores)): ?>
+            <div class="error-container" style="color: red;">
+                <ul>
+                    <?php foreach ($errores as $error): ?>
+                        <li><?php echo htmlspecialchars($error); ?></li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+        <?php endif; ?>
+
         <?php if (isset($message)): ?>
             <p class="error"><?php echo htmlspecialchars($message); ?></p>
         <?php endif; ?>
 
         <form action="" method="post" class="editMesa">
             <label for="num_sillas">Número de Sillas:</label>
-            <select name="num_sillas" id="num_sillas" onblur=" validateNumSillas()">
+            <select name="num_sillas" id="num_sillas" onblur="validateNumSillas()">
                 <?php
                 $opciones_sillas = [2, 3, 4, 5, 6, 10]; 
                 foreach ($opciones_sillas as $opcion) {
@@ -109,7 +134,7 @@ if (isset($_GET['id'])) {
             <span id="numSillaError" class="error-message"></span>
 
             <label for="id_sala">Sala:</label>
-            <select name="id_sala" id="id_sala" onblur=" validateSala()">
+            <select name="id_sala" id="id_sala" onblur="validateSala()">
                 <?php
                 foreach ($salas as $sala) {
                     $selected = $sala['id_sala'] == $mesa['id_sala'] ? 'selected' : '';

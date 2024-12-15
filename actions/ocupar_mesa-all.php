@@ -7,20 +7,6 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     exit();
 }
 
-if ($_SESSION['rol_usuario'] !== "Administrador") {
-    switch ($_SESSION['rol_usuario']) {
-        case 'Camarero':
-            header("Location: ../panelCamarero.php");
-            exit();
-        case 'Gerente':
-            header("Location: ../panelGerente.php");
-            exit();
-        default:
-            header("Location: ../paginaInicio.php");
-            exit();
-    }
-}
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_mesa'], $_POST['id_sala'], $_POST['estado_actual'])) {
     $id_mesa = $_POST['id_mesa'];
     $id_sala = $_POST['id_sala'];
@@ -62,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_mesa'], $_POST['id
 
         $conn->commit();
 
-        header("Location: ../public/gestion_mesas.php?id_sala=" . $id_sala);
+        header("Location: ../public/gestion_mesas-all.php?id_sala=" . $id_sala);
         exit();
 
     } catch (PDOException $e) {
@@ -70,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_mesa'], $_POST['id
         die("Error al procesar la solicitud: " . $e->getMessage());
     }
 } else {
-    header("Location: ../public/gestion_mesas.php?error=missing_parameters");
+    header("Location: ../public/gestion_mesas-all.php?error=missing_parameters");
     exit();
 }
 ?>
